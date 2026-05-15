@@ -1,0 +1,17 @@
+  el.innerHTML = `<div class="section-label">${ranked ? 'Top Tracks' : 'Results — ' + tracks.length}</div>`
+    + tracks.map((t, i) => `
+      <div class="track-card ${currentTrack?.id === t.id ? 'playing' : ''}" id="card-${t.id}">
+        ${ranked ? `<div class="track-rank">${i+1}</div>` : ''}
+        <div class="track-cover" onclick="playTrackFromList(${i})">
+          ${t.album?.cover_small ? `<img src="${t.album.cover_small}" loading="lazy" alt="">` : '♪'}
+          <div class="playing-indicator">▶</div>
+        </div>
+        <div class="track-info" onclick="openDetailForTrack(${i})">
+          <div class="track-title">${esc(t.title)}</div>
+          <div class="track-artist" onclick="event.stopPropagation(); openArtist('${esc(t.artist?.name || '')}', ${t.artist?.id || 0})">${esc(t.artist?.name || '')}</div>
+        </div>
+        <div class="track-actions">
+          <button class="track-action-btn" onclick="addToPlaylistFromList(${i})">+</button>
+        </div>
+        <div class="track-duration">${fmtTime(t.duration)}</div>
+      </div>`).join('');

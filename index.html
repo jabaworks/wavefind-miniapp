@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -294,19 +294,19 @@ function renderTracks(tracks, ranked) {
   if (!tracks.length) { el.innerHTML = '<div class="empty">No results found</div>'; return; }
   el.innerHTML = `<div class="section-label">${ranked ? 'Top Tracks' : 'Results — ' + tracks.length}</div>`
     + tracks.map((t, i) => `
-      <div class="track-card ${currentTrack?.id === t.id ? 'playing' : ''}" id="card-${t.id}" onclick="playTrackFromList(${i})">
+      <div class="track-card ${currentTrack?.id === t.id ? 'playing' : ''}" id="card-${t.id}" >
         ${ranked ? `<div class="track-rank">${i+1}</div>` : ''}
-        <div class="track-cover">
+        <div class="track-cover" onclick="playTrackFromList(${i})">
           ${t.album?.cover_small ? `<img src="${t.album.cover_small}" loading="lazy" alt="">` : '♪'}
           <div class="playing-indicator">▶</div>
         </div>
-        <div class="track-info">
+        <div class="track-info" onclick="openDetailForTrack(${i})" style="cursor:pointer">
           <div class="track-title">${esc(t.title)}</div>
           <div class="track-artist" onclick="event.stopPropagation(); openArtist('${esc(t.artist?.name || '')}', ${t.artist?.id || 0})">${esc(t.artist?.name || '')}</div>
         </div>
         <div class="track-actions">
-          <button class="track-action-btn" onclick="event.stopPropagation(); openDetailForTrack(${i})">⋯</button>
-          <button class="track-action-btn" onclick="event.stopPropagation(); addToPlaylistFromList(${i})">+</button>
+          <button class="track-action-btn" 
+          <button class="track-action-btn" onclick="addToPlaylistFromList(${i})">+</button>
         </div>
         <div class="track-duration">${fmtTime(t.duration)}</div>
       </div>`).join('');
@@ -528,8 +528,8 @@ async function openArtist(name, id) {
       display.map((t, i) => `
         <div class="track-card" onclick='startPlayback(${JSON.stringify(t)})'>
           <div class="track-rank">${i+1}</div>
-          <div class="track-cover">${t.album?.cover_small ? `<img src="${t.album.cover_small}" loading="lazy" alt="">` : '♪'}</div>
-          <div class="track-info">
+          <div class="track-cover" onclick="playTrackFromList(${i})">${t.album?.cover_small ? `<img src="${t.album.cover_small}" loading="lazy" alt="">` : '♪'}</div>
+          <div class="track-info" onclick="openDetailForTrack(${i})" style="cursor:pointer">
             <div class="track-title">${esc(t.title)}</div>
             <div class="track-artist">${esc(t.album?.title || '')}</div>
           </div>
